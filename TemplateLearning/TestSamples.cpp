@@ -245,6 +245,71 @@ struct AT { };
 struct BT { BT& operator= (AT&&) { return *this; } };
 #pragma endregion is_assignable
 
+#pragma region Type Traits Library
+struct ATT {
+	int a;
+	int f(int) { return 2011; }
+};
+
+enum ETT {
+	e = 1,
+};
+
+union UTT {
+	int u;
+};
+#pragma endregion Type Traits Library
+
+template<typename T,                                       // (1)
+	typename std::enable_if<std::is_integral<T>::value, T>::type = 0>
+	T gcd(T a, T b) {
+	if (b == 0) { return a; }
+	else {
+		return gcd(b, a % b);                              // (2)
+	}
+}
+
+#pragma region SFINAE
+void test(...)
+{
+	std::cout << "Catch-all overload called\n";
+}
+
+// this overload is added to the set of overloads if
+// C is a reference-to-class type and F is a pointer to member function of C
+template <class C, class F>
+auto test(C c, F f) -> decltype((void)(c.*f)(), void())
+{
+	std::cout << "\nReference overload called\n";
+}
+
+// this overload is added to the set of overloads if
+// C is a pointer-to-class type and F is a pointer to member function of C
+template <class C, class F>
+auto test(C c, F f) -> decltype((void)((c->*f)()), void())
+{
+	std::cout << "Pointer overload called\n";
+}
+
+struct X { void f() {} };
+#pragma endregion SFINAE
+
+#pragma region Function
+double add(double a, double b) {
+	return a + b;
+}
+
+struct Sub {
+	double operator()(double a, double b) {
+		return a - b;
+	}
+};
+
+double multThree(double a, double b, double c) {
+	return a * b* c;
+}
+
+#pragma endregion Function
 int main()
 {
 	//////////////////////////////////////////////////////////////////////////
@@ -436,6 +501,65 @@ std::cout << std::endl;
 	std::cout << "B=A: " << std::is_assignable<BL, AL>::value << std::endl;  //B=A: true
 #pragma endregion is_assignable
 	
+#pragma region Type Traits Library
+	std::cout << std::endl;
+	std::cout << "std::is_void<void>::value ->" << std::is_void<void>::value << std::endl;
+	std::cout << "std::is_integral<short>::value ->" << std::is_integral<short>::value << std::endl;
+	std::cout << "std::is_floating_point<double>::value ->" << std::is_floating_point<double>::value << std::endl;
+	std::cout << "std::is_array<int[]>::value ->" << std::is_array<int[]>::value << std::endl;
+	std::cout << "std::is_pointer<int*>::value ->" << std::is_pointer<int*>::value << std::endl;
+	std::cout << "std::is_null_pointer<std::nullptr_t>::value ->" << std::is_null_pointer<std::nullptr_t>::value << std::endl;
+	std::cout << "std::is_member_object_pointer<int ATT::*>::value ->" << std::is_member_object_pointer<int ATT::*>::value << std::endl;
+	std::cout << "std::is_member_function_pointer<int (ATT::*)(int)>::value ->" << std::is_member_function_pointer<int (ATT::*)(int)>::value << std::endl;
+	std::cout << "std::is_enum<ETT>::value ->" << std::is_enum<ETT>::value << std::endl;
+	std::cout << "std::is_union<UTT>::value ->" << std::is_union<UTT>::value << std::endl;
+	std::cout << "std::is_class<std::string>::value ->" << std::is_class<std::string>::value << std::endl;
+	std::cout << "std::is_function<int* (double)>::value ->" << std::is_function<int* (double)>::value << std::endl;
+	std::cout << "std::is_lvalue_reference<int&>::value ->" << std::is_lvalue_reference<int&>::value << std::endl;
+	std::cout << "std::is_rvalue_reference<int&&>::value ->"<< std::is_rvalue_reference<int&&>::value << std::endl;
+#pragma endregion Type Traits Library
 
-	return 0;
+#pragma region Trivial
+	std::cout << std::endl;
+	std::cout << "std::is_base_of<Base, Derived>::value: "<< std::is_base_of<Base, Derived>::value << std::endl;
+	std::cout << "std::is_base_of<Derived, Base>::value: "<< std::is_base_of<Derived, Base>::value << std::endl;
+	std::cout << "std::is_base_of<Derived, Derived>::value: "<< std::is_base_of<Derived, Derived>::value << std::endl;
+	std::cout << "std::is_convertible<Base*, Derived*>::value: "<< std::is_convertible<Base*, Derived*>::value << std::endl;
+	std::cout << "std::is_convertible<Derived*, Base*>::value: "<< std::is_convertible<Derived*, Base*>::value << std::endl;
+	std::cout << "std::is_convertible<Derived*, Derived*>::value: "<< std::is_convertible<Derived*, Derived*>::value << std::endl;
+	std::cout << "std::is_same<int, int32_t>::value: "<< std::is_same<int, int32_t>::value << std::endl;
+	std::cout << "std::is_same<int, int64_t>::value: "<< std::is_same<int, int64_t>::value << std::endl;
+	std::cout << "std::is_same<long int, int64_t>::value: "<< std::is_same<long int, int64_t>::value << std::endl;
+#pragma endregion Trivial
+
+#pragma region SemiRegular 
+	std::cout << std::endl;
+	operator<<(std::cout, "Argument-dependent lookup\n");
+	std::cout << "gcd(100, 10)= " << gcd(100, 10) << std::endl;
+	//std::cout << "gcd(3.5, 4)= " << gcd(3.5, 4.0) << std::endl;  error C2668:'gcd' : ambiguous call to overloaded function
+#pragma endregion SemiRegular 
+
+#pragma region SFINAE
+	X x;
+	test(x, &X::f);
+	test(&x, &X::f);
+	test(42, 1337);
+#pragma endregion SFINAE
+
+#pragma region Function
+	std::cout << std::endl;
+	std::map<const char, std::function<double(double, double)>> 
+		dispTable{  // (1)
+		{'+', add },                                         // (2)
+		{'-', Sub() },                                       // (3)
+		{'*', std::bind(multThree, 1, _1, _2) },             // (4)
+		{'/',[](double a, double b) { return a / b; }} };      // (5)
+
+	std::cout << "3.5 + 4.5 = " << dispTable['+'](3.5, 4.5) << std::endl;
+	std::cout << "3.5 - 4.5 = " << dispTable['-'](3.5, 4.5) << std::endl;
+	std::cout << "3.5 * 4.5 = " << dispTable['*'](3.5, 4.5) << std::endl;
+	std::cout << "3.5 / 4.5 = " << dispTable['/'](3.5, 4.5) << std::endl;
+
+#pragma endregion Function
+	return getchar();
 }
