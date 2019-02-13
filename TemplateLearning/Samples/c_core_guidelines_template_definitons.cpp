@@ -2,9 +2,9 @@
 #include <iostream>
 
 template <typename T, std::size_t N>
-class Array {
+class Array_1 {
 public:
-	Array() = default;
+	Array_1() = default;
 	std::size_t getSize() const {
 		return N;
 	}
@@ -12,14 +12,14 @@ private:
 	T elem[N];
 };
 
-int main() {
+int main_1() {
 
-	Array<int, 100> arr1;
+	Array_1<int, 100> arr1;
 	std::cout << "arr1.getSize(): " << arr1.getSize() << std::endl;
 
-	Array<int, 200> arr2;
+	Array_1<int, 200> arr2;
 	std::cout << "arr2.getSize(): " << arr2.getSize() << std::endl;
-
+	return 0;
 }
 
 //_______________________OR______________________________________________
@@ -46,12 +46,13 @@ private:
 };
 
 
-int main() {
+int main_2() {
 
 	Array<int, 100> arr1;
 	std::cout << "arr1.getSize(): " << arr1.getSize() << std::endl;
 
 	Array<int, 200> arr2;
 	std::cout << "arr2.getSize(): " << arr2.getSize() << std::endl;
+	return 0;
 }
 //_____________________________________________________________________________

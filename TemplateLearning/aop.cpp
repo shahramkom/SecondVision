@@ -200,7 +200,7 @@ public:
 	bool isValid() { return true; }
 } session;
 
-int main() {
+int mainAOP() {
 	Users users;
 	mutex lockMutex;
 	map<tuple<int>, User> userCache;

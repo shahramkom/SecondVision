@@ -1,0 +1,54 @@
+http://www.modernescpp.com/index.php/c-core-guidelines-template-definitons ***23/11/97
+http://www.modernescpp.com/index.php/c-core-guidelines-programming-at-compile-time-with-type-traits-ii  ***24/11/97
+https://www.modernescpp.com/index.php/type-traits-performance-matters ***24/11/97
+https://www.modernescpp.com/index.php/check-types
+____________________________________________________________________________________________
+
+
+
+
+
+
+https://www.manning.com/books/functional-programming-in-c-plus-plus
+https://www.manning.com/books/microservices-patterns
+https://www.manning.com/books/microservices-in-action
+_______________________________________________________________________
+https://bartoszmilewski.com/2014/02/26/c17-i-see-a-monad-in-your-future/
+_______________________________________________________________________
+http://www.modernescpp.com/index.php/monads-in-c
+http://www.modernescpp.com/index.php/category/c-17
+________________________________________________________________________
+http://www.modernescpp.com/index.php/tag/c-20?start=0
+	http://www.modernescpp.com/index.php/defintion-of-concepts
+	http://www.modernescpp.com/index.php/placeholders-the-second
+	http://www.modernescpp.com/index.php/concepts-placeholders
+	http://www.modernescpp.com/index.php/task-blocks
+	http://www.modernescpp.com/index.php/transactional-memory
+	http://www.modernescpp.com/index.php/coroutines
+	http://www.modernescpp.com/index.php/latches-and-barriers
+	http://www.modernescpp.com/index.php/std-future-extensions
+	http://www.modernescpp.com/index.php/atomic-smart-pointers
+	http://www.modernescpp.com/index.php/multithreading-in-c-17-and-c-20
+	http://www.modernescpp.com/index.php/monads-in-c
+	http://www.modernescpp.com/index.php/concepts-lite
+	http://www.modernescpp.com/index.php/the-new-ranges-library
+	http://www.modernescpp.com/index.php/functional-in-c-17-and-c-20
+____________________________________________________________________________
+http://www.modernescpp.com/index.php/tag/template-metaprogramming
+	http://www.modernescpp.com/index.php/c-core-guidelines-programming-at-compile-time-with-type-traits-ii
+	http://www.modernescpp.com/index.php/c-core-guidelines-programming-at-compile-time-with-the-type-traits
+	http://www.modernescpp.com/index.php/c-core-guidelines-programming-at-compile-time
+	http://www.modernescpp.com/index.php/c-core-guidelines-rules-for-template-metaprogramming
+____________________________________________________________________________
+http://www.modernescpp.com/index.php/type-traits-performance-matters
+____________________________________________________________________________
+http://www.modernescpp.com/index.php/c-core-guidelines-specialisation-of-templates
+http://www.modernescpp.com/index.php/more-and-more-save
+
+http://www.modernescpp.com/index.php/c-core-guidelines-argument-dependent-lookup-or-koenig-lookup
+http://www.modernescpp.com/index.php/c-core-guidelines-template-interfaces
+http://www.modernescpp.com/index.php/c-core-guidelines-rules-for-template-interfaces
+http://www.modernescpp.com/index.php/i-m-proud-to-present-the-cpp-standard-library
+http://www.modernescpp.com/index.php/c-core-guidelines-definition-of-concepts-the-second
+http://www.modernescpp.com/index.php/compare-and-modify-types
+http://www.modernescpp.com/index.php/check-types

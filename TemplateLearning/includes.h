@@ -18,6 +18,7 @@
 #include <sstream>
 #include <ostream>
 #include <future>
+#include <cstring>
 
 
 using namespace std;

@@ -366,7 +366,7 @@ Maybe<T> just(T && t)
 
 #pragma endregion MayBe
 
-int main()
+int mainPU()
 {
 	printTitle("My Universal Test:",false);
 	tfn_printer printer;
