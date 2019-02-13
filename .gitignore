@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+
+/TemplateLearning/.vs/TemplateLearning/v16
+
+/TemplateLearning/Debug
