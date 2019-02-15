@@ -1,5 +1,6 @@
 #pragma once
 
+#include <windows.h>
 #include <iostream>
 #include <algorithm>
 #include <functional>
@@ -19,8 +20,16 @@
 #include <ostream>
 #include <future>
 #include <cstring>
-
+#include <forward_list>
+#include <ppl.h>
+#include <concurrent_vector.h>
+#include <array>
+#include <cmath>
+#include <thread>
 
 using namespace std;
 using  namespace std::placeholders;
 using  std::ostreambuf_iterator;
+using namespace std::literals::chrono_literals;
+using namespace std::literals;
+using namespace concurrency;

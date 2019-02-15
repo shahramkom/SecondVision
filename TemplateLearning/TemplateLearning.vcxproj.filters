@@ -57,6 +57,12 @@
     <ClCompile Include="Samples\c_core_guidelines_template_definitons.cpp">
       <Filter>Source Files\Samples</Filter>
     </ClCompile>
+    <ClCompile Include="TestSample2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Concurrents.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="includes.h">
@@ -76,6 +82,12 @@
     </ClInclude>
     <ClInclude Include="Serialisation.h">
       <Filter>Header Files\Unused</Filter>
+    </ClInclude>
+    <ClInclude Include="distance.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="unit.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -22,6 +22,7 @@
     <ClCompile Include="aop.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Concurrents.cpp" />
     <ClCompile Include="fn_universal.cpp" />
     <ClCompile Include="foldExpression.cpp" />
     <ClCompile Include="FunctionalLensesForCpp14.cpp">
@@ -41,14 +42,17 @@
     </ClCompile>
     <ClCompile Include="PracticeUniversal.cpp" />
     <ClCompile Include="Samples\c_core_guidelines_template_definitons.cpp" />
+    <ClCompile Include="TestSample2.cpp" />
     <ClCompile Include="TestSamples.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Declaration.h" />
+    <ClInclude Include="distance.h" />
     <ClInclude Include="includes.h" />
     <ClInclude Include="MVJSON.h" />
     <ClInclude Include="NamedTuple.h" />
     <ClInclude Include="Serialisation.h" />
+    <ClInclude Include="unit.h" />
     <ClInclude Include="Usage.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -126,6 +130,8 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <EnableModules>true</EnableModules>
+      <OpenMPSupport>true</OpenMPSupport>
+      <AdditionalOptions>/Zc:twoPhase- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
