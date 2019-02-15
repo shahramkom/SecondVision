@@ -26,6 +26,7 @@
 #include <array>
 #include <cmath>
 #include <thread>
+#include <cstdio>
 
 using namespace std;
 using  namespace std::placeholders;

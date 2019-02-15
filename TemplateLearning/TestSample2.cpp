@@ -160,6 +160,36 @@ int traverse(node& n, Func&& f) {
 	return f(n) + left + right;
 }
 
+#pragma region Two Phases
+void func(void*) { std::puts("The call resolves to void*"); }
+template<typename T> void g(T x)
+{
+	func(0);
+}
+void func(int) { std::puts("The call resolves to int"); }
+
+
+void funcM(long) { std::puts("func(long)"); }
+
+template <typename T> void meow(T t) {
+	funcM(t);
+}
+
+void funcM(int) { std::puts("func(int)"); }
+
+namespace Kitty {
+	struct Peppermint {};
+	void funcM(Peppermint) { std::puts("Kitty::func(Kitty::Peppermint)"); }
+}
+
+template<typename T>
+typename T::TYPE funcS(typename T::TYPE*)
+{
+	typename T::TYPE i;
+}
+
+#pragma endregion Two Phases
+
 
 int main()
 {
@@ -250,6 +280,7 @@ int main()
 #pragma endregion TypeInfo
 
 #pragma region Concurrency::parallel_for
+	cout << endl;
 	int width = 10;
 	std::cout << "Concurrency::parallel_for: ";
 	Concurrency::parallel_for(0, width, [=](int x)
@@ -260,6 +291,7 @@ int main()
 #pragma endregion Concurrency::parallel_for
 
 #pragma region OpenMP
+	cout << endl;
 #pragma omp parallel
 	printf("Hello, world.\n");
 
@@ -278,11 +310,11 @@ int main()
 		saz[i] = 2 * i;
 	}
 	auto endNor = chrono::steady_clock::now().time_since_epoch().count();
-	cout << "Duration normal:" << (endNor - startNor) << endl;
+	cout << "Duration normal:" << (endNor - startNor) << endl<< endl;
 
 	int nthreads, tid;
-	/* Fork a team of threads giving them their own copies of variables */
 #pragma omp parallel private(nthreads, tid)
+	/* Fork a team of threads giving them their own copies of variables */
 	{
 		/* Obtain thread number */
 		tid = omp_get_thread_num();
@@ -299,6 +331,7 @@ int main()
 #pragma endregion
 
 #pragma region parallel_sum
+	cout << endl;
 	std::vector<int> v(10000, 1);
 	std::cout << "The sum is " << parallel_sum(v.begin(), v.end()) << '\n';
 
@@ -308,11 +341,21 @@ int main()
 #pragma endregion
 	   	
 #pragma region Package_task
+	cout << endl;
 	task_lambda();
 	task_bind();
 	task_thread();
 #pragma endregion
 
+#pragma region Two Phases
+	cout << endl;
+	g(3.14);
+	cout << endl;
+	meow(1729);
+	Kitty::Peppermint pepper;
+	meow(pepper);
+#pragma endregion Two Phases
+	
 
 	return getchar();
 }
