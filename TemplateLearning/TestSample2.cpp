@@ -4,8 +4,12 @@
 
 #include "distance.h"
 #include "unit.h"
+#include "vectorArithmeticOperatorOverloading.h"
+#include "vectorArithmeticExpressionTemplates.h"
 
 using namespace Distance::Unit;
+
+static const int NUM = 100000;
 
 #pragma region Variable template
 template<class T>
@@ -190,6 +194,238 @@ typename T::TYPE funcS(typename T::TYPE*)
 
 #pragma endregion Two Phases
 
+//TODO What is this?
+//[[transaction_unsafe]] int transactionUnsafeFunction();
+#pragma region C++_is_Lazy:CRTP
+
+#pragma region static_polymorfism
+template <typename Derived>
+class BaseM {
+public:
+	void interfaces() {
+		static_cast<Derived*>(this)->implementation();
+	}
+	void implementation() {
+		std::cout << "Implementation Base" << std::endl;
+	}
+};
+
+struct Derived1 : BaseM<Derived1> {
+	void implementation() {
+		std::cout << "Implementation Derived1" << std::endl;
+	}
+};
+
+struct Derived2 : BaseM<Derived2> {
+	void implementation() {
+		std::cout << "Implementation Derived2" << std::endl;
+	}
+};
+
+struct Derived3 : BaseM<Derived3> {};
+
+template <typename T>
+void execute(T& base) {
+ 	base.interfaces();
+}
+
+#pragma endregion static_polymorfism
+
+#pragma region Expression_templates
+
+template <typename E>
+class VecExpression {
+public:
+	double operator[](size_t i) const { return static_cast<E const&>(*this)[i]; }
+	size_t size()               const { return static_cast<E const&>(*this).size(); }
+};
+
+class Vec : public VecExpression<Vec> {
+	std::vector<double> elems;
+
+public:
+	double operator[](size_t i) const { return elems[i]; }
+	double& operator[](size_t i) { return elems[i]; }
+	size_t size() const { return elems.size(); }
+
+	Vec(size_t n) : elems(n) {}
+
+	// construct vector using initializer list 
+	Vec(std::initializer_list<double>init) {
+		for (auto i : init)
+			elems.push_back(i);
+	}
+
+	// A Vec can be constructed from any VecExpression, forcing its evaluation.
+	template <typename E>
+	Vec(VecExpression<E> const& vec) : elems(vec.size()) {
+		for (size_t i = 0; i != vec.size(); ++i) {
+			elems[i] = vec[i];
+		}
+	}
+};
+
+template <typename E1, typename E2>
+class VecSum : public VecExpression<VecSum<E1, E2> > {
+	E1 const& _u;
+	E2 const& _v;
+
+public:
+	VecSum(E1 const& u, E2 const& v) : _u(u), _v(v) {
+		//static_assert(u.size() == v.size());
+	}
+
+	double operator[](size_t i) const { return _u[i] + _v[i]; }
+	size_t size()               const { return _v.size(); }
+};
+
+template <typename E1, typename E2>
+VecSum<E1, E2> operator+(E1 const& u, E2 const& v) {
+	return VecSum<E1, E2>(u, v);
+}
+#pragma endregion Expression_templates
+
+#pragma region Mixins_with_CRTP
+template<class Derived>
+class Equality {};
+
+template <class Derived>
+bool operator == (Equality<Derived> const& op1, Equality<Derived> const& op2) {
+	Derived const& d1 = static_cast<Derived const&>(op1);
+	Derived const& d2 = static_cast<Derived const&>(op2);
+	return !(d1 < d2) && !(d2 < d1);
+}
+
+template <class Derived>
+bool operator != (Equality<Derived> const& op1, Equality<Derived> const& op2) {
+	Derived const& d1 = static_cast<Derived const&>(op1);
+	Derived const& d2 = static_cast<Derived const&>(op2);
+	return !(op1 == op2);
+}
+
+struct Apple :public Equality<Apple> {
+	Apple(int s) : size{ s } {};
+	int size;
+};
+
+bool operator < (Apple const& a1, Apple const& a2) {
+	return a1.size < a2.size;
+}
+
+struct Man :public Equality<Man> {
+	Man(std::string n)
+		: name{ n }
+	{}
+	std::string name;
+};
+
+bool operator < (Man const& m1, Man const& m2) {
+	return m1.name < m2.name;
+}
+#pragma endregion Mixins_with_CRTP
+
+#pragma endregion C++_is_Lazy:CRTP
+
+#pragma region Optional
+std::optional<int> getFirst(const std::vector<int>& vec) {
+	if (!vec.empty()) return std::optional<int>(vec[0]);
+	else return std::optional<int>();
+}
+#pragma endregion Optional
+
+#pragma region Future
+template <typename RandomIt>
+int par_sum(RandomIt beg, RandomIt end)
+{
+	auto len = end - beg;
+	if (len < 1000)
+		return std::accumulate(beg, end, 0);
+
+	RandomIt mid = beg + len / 2;
+	auto handle = std::async(std::launch::async,
+		par_sum<RandomIt>, mid, end);
+	int sum = par_sum(beg, mid);
+	return sum + handle.get();
+}
+#pragma endregion Future
+
+#pragma region AtomicSharedPtr
+//In C++ 20
+/*
+template<typename T> class concurrent_stack {
+	struct Node { T t; shared_ptr<Node> next; };
+	std::atomic_shared_ptr<Node> head;
+	// in C++11: remove “atomic_” and remember to use the special
+	// functions every time you touch the variable
+	concurrent_stack(concurrent_stack&) = delete;
+	void operator=(concurrent_stack&) = delete;
+
+public:
+	concurrent_stack() = default;
+	~concurrent_stack() = default;
+	class reference {
+		shared_ptr<Node> p;
+	public:
+		reference(shared_ptr<Node> p_) : p{ p_ } { }
+		T& operator* () { return p->t; }
+		T* operator->() { return &p->t; }
+	};
+
+	auto find(T t) const {
+		auto p = head.load();  // in C++11: atomic_load(&head)
+		while (p && p->t != t)
+			p = p->next;
+		return reference(move(p));
+	}
+	auto front() const {
+		return reference(head); // in C++11: atomic_load(&head)
+	}
+	void push_front(T t) {
+		auto p = make_shared<Node>();
+		p->t = t;
+		p->next = head;         // in C++11: atomic_load(&head)
+		while (!head.compare_exchange_weak(p->next, p)) {}
+		// in C++11: atomic_compare_exchange_weak(&head, &p->next, p);
+	}
+	void pop_front() {
+		auto p = head.load();
+		while (p && !head.compare_exchange_weak(p, p->next)) {}
+		// in C++11: atomic_compare_exchange_weak(&head, &p, p->next);
+	}
+};
+
+*/
+
+#pragma endregion AtomicSharedPtr
+
+#pragma region Async
+std::string helloFunction(const std::string& s) {
+	return "Hello C++11 from " + s + ".";
+}
+
+class HelloFunctionObject {
+public:
+	std::string operator()(const std::string& s) const {
+		return "Hello C++11 from " + s + ".";
+	}
+};
+
+
+long long getDotProduct(std::vector<int>& v, std::vector<int>& w) {
+
+	auto future1 = std::async([&] {return std::inner_product(&v[0], &v[v.size() / 4], &w[0], 0L);});
+ 	auto future2 = std::async([&] {return std::inner_product(&v[v.size() / 4], &v[v.size() / 2], &w[v.size() / 4], 0L);});
+ 	auto future3 = std::async([&] {return std::inner_product(&v[v.size() / 2], &v[v.size() * 3 / 4], &w[v.size() / 2], 0L);});
+ 	//auto future4 = std::async([&] {return std::inner_product(&v[v.size() * 3 / 4], &v[v.size()], &w[v.size() * 3 / 4], 0L);});
+ 	auto f1 = future1.get();
+ 	auto f2 = future2.get();
+ 	auto f3 = future3.get();
+	//auto qwe = future4.get();
+	return f1 + f2 + f3;
+}
+
+#pragma endregion Async
+
 
 int main()
 {
@@ -356,6 +592,180 @@ int main()
 	meow(pepper);
 #pragma endregion Two Phases
 	
+#pragma region static_polymorfism
+	std::cout << std::endl;
+
+	Derived1 d1;
+	execute(d1);
+
+	Derived2 d2;
+	execute(d2);
+
+	Derived3 d3;
+	execute(d3);
+
+	std::cout << std::endl;
+#pragma endregion static_polymorfism
+
+#pragma region Mixins_with_CRTP
+	std::cout << std::boolalpha << std::endl;
+
+	Apple apple1{ 5 };
+	Apple apple2{ 10 };
+	std::cout << "apple1 == apple2: " << (apple1 == apple2) << std::endl;
+
+	Man man1{ "grimm" };
+	Man man2{ "jaud" };
+	std::cout << "man1 != man2: " << (man1 != man2) << std::endl;
+
+	std::cout << std::endl;
+#pragma endregion Mixins_with_CRTP
+
+#pragma region Expression_templates
+	Vec v0 = { 23.4,12.5,144.56,90.56 };
+	Vec v1 = { 67.12,34.8,90.34,89.30 };
+	Vec v2 = { 34.90,111.9,45.12,90.5 };
+
+	// Following assignment will call the ctor of Vec which accept type of 
+	// `VecExpression<E> const&`. Then expand the loop body to 
+	// a.elems[i] + b.elems[i] + c.elems[i]
+	Vec sum_of_vec_type = v0 + v1 + v2;
+
+	std::cout << "sum_of_vec_type -> ";
+	for (int i = 0; i < sum_of_vec_type.size(); ++i)
+		std::cout << sum_of_vec_type[i] << " ";
+	cout << std::endl;
+#pragma endregion Expression_templates
+
+#pragma region VectorArithmeticOperatorOverloading
+	cout << endl;
+ 	MyVectorA<double> xA(10, 5.4);
+ 	MyVectorA<double> yA(10, 10.3);
+ 	MyVectorA<double> resultA(10);
+ 	resultA = (xA + xA) + (yA * yA);
+	std::cout<<"Vector Arithmetic Operator Overloading -> " << resultA << std::endl<<endl;
+#pragma endregion VectorArithmeticOperatorOverloading
+
+#pragma region vectorArithmeticExpressionTemplates
+	cout << endl;
+	MyVector<double> x(10, 5.4);
+	MyVector<double> y(10, 10.3);
+	MyVector<double> result(10);
+	result = (x + x) + (y * y);
+	std::cout<< "Vector Arithmetic Expression Templates -> " << result << std::endl;
+#pragma endregion vectorArithmeticExpressionTemplates
+
+#pragma region Optional
+	std::vector<int> myVec{ 1, 2, 3 };
+	std::vector<int> myEmptyVec;
+
+	auto myInt = getFirst(myVec);
+
+	if (myInt) {
+		std::cout << "*myInt: " << *myInt << std::endl;
+		std::cout << "myInt.value(): " << myInt.value() << std::endl;
+		std::cout << "myInt.value_or(2017):" << myInt.value_or(2017) << std::endl;
+	}
+
+	std::cout << std::endl;
+
+	auto myEmptyInt = getFirst(myEmptyVec);
+
+	if (!myEmptyInt) {
+		std::cout << "myEmptyInt.value_or(2017):" << myEmptyInt.value_or(2017) << std::endl;
+	}
+#pragma endregion Optional
+
+#pragma region Future
+	std::vector<int> vsp(10000, 1);
+	std::cout << "The sum is " << par_sum(vsp.begin(), vsp.end()) << '\n';
+#pragma endregion Future
+	
+#pragma region Atomic
+	std::shared_ptr<int> ptr = std::make_shared<int>(2011);
+
+	for (auto i = 0;i < 10;i++) {
+		std::thread([&ptr] {
+			auto localPtr = std::make_shared<int>(2014);
+			std::atomic_store(&ptr, localPtr);
+		}).detach();
+	}
+#pragma endregion Atomic
+
+
+#pragma region Async
+#pragma region Async1
+	std::cout << std::endl;
+
+	// future with function
+	auto futureFunction = std::async(helloFunction, "function");
+
+	// future with function object
+	HelloFunctionObject helloFunctionObject;
+	auto futureFunctionObject = std::async(helloFunctionObject, "function object");
+
+	// future with lambda function
+	auto futureLambda = std::async([](const std::string & s) {return "Hello C++11 from " + s + ".";}, "lambda function");
+
+	std::cout << futureFunction.get() << "\n"<< futureFunctionObject.get() << "\n"<< futureLambda.get() << std::endl;
+
+	std::cout << std::endl<< std::endl;
+#pragma endregion Async1
+	
+#pragma region Async2
+	auto begin = std::chrono::system_clock::now();
+
+	auto asyncLazy = std::async(std::launch::deferred, [] { return  std::chrono::system_clock::now();});
+
+	auto asyncEager = std::async(std::launch::async, [] { return  std::chrono::system_clock::now();});
+
+	std::this_thread::sleep_for(std::chrono::seconds(1));
+
+	auto lazyStart = asyncLazy.get() - begin;
+	auto eagerStart = asyncEager.get() - begin;
+
+	auto lazyDuration = std::chrono::duration<double>(lazyStart).count();
+	auto eagerDuration = std::chrono::duration<double>(eagerStart).count();
+
+	std::cout << "asyncLazy evaluated after : " << lazyDuration << " seconds." << std::endl;
+	std::cout << "asyncEager evaluated after: " << eagerDuration << " seconds." << std::endl;
+
+	std::cout << std::endl<< std::endl;
+#pragma endregion Async2
+	
+#pragma region Async3
+	// get NUM random numbers from 0 .. 100
+	std::random_device seed;
+
+	// generator
+	std::mt19937 engine(seed());
+
+	// distribution
+	std::uniform_int_distribution<int> dist(0, 100);
+
+	// fill the vectors
+	std::vector<int> vsh, w;
+	vsh.reserve(NUM);
+	w.reserve(NUM);
+	for (int i = 0; i < NUM; ++i) {
+		vsh.push_back(dist(engine));
+		w.push_back(dist(engine));
+	}
+
+	// measure the execution time
+	std::chrono::system_clock::time_point start = std::chrono::system_clock::now();
+	std::cout << "getDotProduct(v,w): " << getDotProduct(vsh, w) << std::endl;
+	std::chrono::duration<double> dur = std::chrono::system_clock::now() - start;
+	std::cout << "Parallel Execution: " << dur.count() << std::endl;
+
+	std::cout << std::endl;
+#pragma endregion Async3
+
+
+	
+#pragma endregion Async
+
+
 
 	return getchar();
 }

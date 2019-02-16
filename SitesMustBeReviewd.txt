@@ -31,6 +31,10 @@ Important: https://blogs.msdn.microsoft.com/vcblog/2016/11/16/permissive-switch/
 Important: https://en.cppreference.com/w/cpp/language/sfinae
 _______________________________________________________________________
 http://www.modernescpp.com/index.php/der-einstieg-in-modernes-c#HighSafetyRequirements
+
+http://www.modernescpp.com/index.php/category/multithreading-memory-model
+http://www.modernescpp.com/index.php/category/multithreading
+http://www.modernescpp.com/index.php/reader-writer-locks
 _______________________________________________________________________
 http://www.modernescpp.com/index.php/tag/c-20?start=0
 	http://www.modernescpp.com/index.php/user-defined-literals ***25/11/97
@@ -43,13 +47,17 @@ http://www.modernescpp.com/index.php/tag/c-20?start=0
 	http://www.modernescpp.com/index.php/concepts-placeholders ***Not in MSVC 2019 in 26/11/97
 	http://www.modernescpp.com/index.php/task-blocks  ***26/11/97
 	http://www.modernescpp.com/index.php/latches-and-barriers ***Not in MSVC 2019 in 26/11/97
-	http://www.modernescpp.com/index.php/transactional-memory
-	http://www.modernescpp.com/index.php/coroutines
-	http://www.modernescpp.com/index.php/std-future-extensions
-	http://www.modernescpp.com/index.php/atomic-smart-pointers
-	http://www.modernescpp.com/index.php/multithreading-in-c-17-and-c-20
-	http://www.modernescpp.com/index.php/monads-in-c
-	http://www.modernescpp.com/index.php/concepts-lite
-	http://www.modernescpp.com/index.php/the-new-ranges-library
-	http://www.modernescpp.com/index.php/functional-in-c-17-and-c-20
+	http://www.modernescpp.com/index.php/transactional-memory ***Not in MSVC 2019 in 26/11/97
+	http://www.modernescpp.com/index.php/inline  ***27/11/97
+	http://www.modernescpp.com/index.php/c-is-still-lazy   ***27/11/97 
+	http://www.modernescpp.com/index.php/expression-templates   ***27/11/97 
+	http://www.modernescpp.com/index.php/atomic-smart-pointers ***Not in MSVC 2019 in 27/11/97
+	http://www.modernescpp.com/index.php/coroutines ***Not in MSVC 2019 in 27/11/97 must read again when released C++ 20
+	http://www.modernescpp.com/index.php/std-future-extensions  ***Not in MSVC 2019 in 27/11/97 must read again when released C++ 20
+	http://www.modernescpp.com/index.php/asynchronous-function-calls   ***27/11/97 
+	http://www.modernescpp.com/index.php/multithreading-in-c-17-and-c-20  ***Not in MSVC 2019 in 27/11/97 must read again when released C++ 20
+	http://www.modernescpp.com/index.php/monads-in-c  
+	http://www.modernescpp.com/index.php/concepts-lite  ***Not in MSVC 2019 in 27/11/97 must read again when released C++ 20
+	http://www.modernescpp.com/index.php/the-new-ranges-library  ***27/11/97 
+	http://www.modernescpp.com/index.php/functional-in-c-17-and-c-20  ***27/11/97 
 

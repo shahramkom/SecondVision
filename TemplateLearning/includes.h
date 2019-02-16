@@ -27,6 +27,9 @@
 #include <cmath>
 #include <thread>
 #include <cstdio>
+#include <optional>
+#include <atomic>
+#include <random>
 
 using namespace std;
 using  namespace std::placeholders;
@@ -34,3 +37,4 @@ using  std::ostreambuf_iterator;
 using namespace std::literals::chrono_literals;
 using namespace std::literals;
 using namespace concurrency;
+//using std::atomic_shared_ptr; C++ 20

@@ -54,6 +54,10 @@
     <ClInclude Include="Serialisation.h" />
     <ClInclude Include="unit.h" />
     <ClInclude Include="Usage.h" />
+    <ClInclude Include="vectorArithmeticExpressionTemplates.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="vectorArithmeticOperatorOverloading.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
