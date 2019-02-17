@@ -102,8 +102,7 @@ int parallel_sum(RandomIt beg, RandomIt end)
 		return std::accumulate(beg, end, 0);
 
 	RandomIt mid = beg + len / 2;
-	auto handle = std::async(std::launch::async,
-		parallel_sum<RandomIt>, mid, end);
+	auto handle = std::async(std::launch::async, parallel_sum<RandomIt>, mid, end);
 	int sum = parallel_sum(beg, mid);
 	return sum + handle.get();
 }
@@ -429,56 +428,49 @@ long long getDotProduct(std::vector<int>& v, std::vector<int>& w) {
 
 int main()
 {
+	cout << "Circular area :" << circular_area<long double>(50) << endl; 
+#pragma region Literals
+
 #pragma region User Defined Literals
 	cout << endl;
-	std::cout << "1.0_km: " << 1.0_km << std::endl;
-	std::cout << "1.0_m: " << 1.0_m << std::endl;
-	std::cout << "1.0_dm: " << 1.0_dm << std::endl;
-	std::cout << "1.0_cm: " << 1.0_cm << std::endl;
-
-	std::cout << std::endl;
-
-	std::cout << "0.001 * 1.0_km: " << 0.001 * 1.0_km << std::endl;
-	std::cout << "10 * 1_dm: " << 10 * 1.0_dm << std::endl;
-	std::cout << "100 * 1.0cm: " << 100 * 1.0_cm << std::endl;
-	std::cout << "1_km / 1000: " << 1.0_km / 1000 << std::endl;
-
-	std::cout << std::endl;
-	std::cout << "1.0_km + 2.0_dm +  3.0_dm + 4.0_cm: " << 1.0_km + 2.0_dm + 3.0_dm + 4.0_cm << std::endl;
-	std::cout << std::endl;
-
+	cout << "1.0_km: " << 1.0_km << endl;
+	cout << "1.0_m: " << 1.0_m << endl;
+	cout << "1.0_dm: " << 1.0_dm << endl;
+	cout << "1.0_cm: " << 1.0_cm << endl;
+	cout << "0.001 * 1.0_km: " << 0.001 * 1.0_km << endl;
+	cout << "10 * 1_dm: " << 10 * 1.0_dm << endl;
+	cout << "100 * 1.0cm: " << 100 * 1.0_cm << endl;
+	cout << "1_km / 1000: " << 1.0_km / 1000 << endl;
+	cout << "1.0_km + 2.0_dm +  3.0_dm + 4.0_cm: " << 1.0_km + 2.0_dm + 3.0_dm + 4.0_cm << endl;
 	auto work = 63.0_km;
 	auto workPerDay = 2 * work;
 	auto abbrevationToWork = 5400.0_m;
 	auto workout = 2 * 1600.0_m;
 	auto shopping = 2 * 1200.0_m;
-
 	auto distPerWeek1 = 4 * workPerDay - 3 * abbrevationToWork + workout + shopping;
 	auto distPerWeek2 = 4 * workPerDay - 3 * abbrevationToWork + 2 * workout;
 	auto distPerWeek3 = 4 * workout + 2 * shopping;
 	auto distPerWeek4 = 5 * workout + shopping;
-
-	std::cout << "distPerWeek1: " << distPerWeek1 << std::endl;
-
+	cout << "distPerWeek1: " << distPerWeek1 << endl;
 	auto averageDistance = getAverageDistance({ distPerWeek1,distPerWeek2,distPerWeek3,distPerWeek4 });
-	std::cout << "averageDistance: " << averageDistance << std::endl;
-
-	std::cout << std::endl;
+	cout << "averageDistance: " << averageDistance << endl;
 #pragma endregion User Defined Literals
 
 #pragma region Chrono litral
-	std::cout << std::endl;
+	cout << endl;
 	auto schoolHour = 45min;
 	auto shortBreak = 300s;
 	auto longBreak = 0.25h;
 	auto schoolWay = 15min;
 	auto homework = 2h;
 	auto schoolDayInSeconds = 2 * schoolWay + 6 * schoolHour + 4 * shortBreak + longBreak + homework;
-	std::cout << "School day in seconds: " << schoolDayInSeconds.count() << std::endl;
-	std::cout << "School day in minutes: " << schoolDayInSeconds.count() / 60 << std::endl;
-	std::cout << "School day in hours: " << schoolDayInSeconds.count() / 3600 << std::endl;
-	std::cout << std::endl;
+	cout << "School day in seconds: " << schoolDayInSeconds.count() << endl;
+	cout << "School day in minutes: " << schoolDayInSeconds.count() / 60 << endl;
+	cout << "School day in hours: " << schoolDayInSeconds.count() / 3600 << endl;
+	cout << endl;
 #pragma endregion Chrono litral
+
+#pragma endregion Literals
 
 #pragma region ENUM
 	std::cout << std::endl;
@@ -501,29 +493,25 @@ int main()
 #pragma endregion ENUM
 
 #pragma region TypeInfo
-	std::cout << std::endl;
-
+	cout << endl;
 	int a = 0;
 	int* b = 0;
 	auto c = 0;
-	std::cout << "C Type: "<<typeid(c).name() << std::endl;
-
+	cout << "C Type: "<<typeid(c).name() << endl;
 	auto res = a + b + c;
-	std::cout << "res value: " << res << std::endl;
-	std::cout << "res Type Name: " << typeid(res).name() << std::endl;
-
-	std::cout << std::endl;
+	cout << "res value: " << res << endl;
+	cout << "res Type Name: " << typeid(res).name() << endl<< endl;
 #pragma endregion TypeInfo
 
 #pragma region Concurrency::parallel_for
 	cout << endl;
-	int width = 10;
-	std::cout << "Concurrency::parallel_for: ";
+	int width = 50;
+	cout << "Concurrency::parallel_for: ";
 	Concurrency::parallel_for(0, width, [=](int x)
 	{
-		std::cout << x << " ";
+		cout << x << ",";
 	});
-	std::cout << std::endl;
+	cout << endl;
 #pragma endregion Concurrency::parallel_for
 
 #pragma region OpenMP
@@ -568,12 +556,12 @@ int main()
 
 #pragma region parallel_sum
 	cout << endl;
-	std::vector<int> v(10000, 1);
-	std::cout << "The sum is " << parallel_sum(v.begin(), v.end()) << '\n';
+	vector<int> v(10000, 1);
+	cout << "The sum is " << parallel_sum(v.begin(), v.end()) << '\n';
 
 
 	concurrent_vector<int> vc(10000, 1);
-	std::cout << "The sum Conc is " << parallel_sum(vc.begin(), vc.end()) << '\n';
+	cout << "The sum Count is " << parallel_sum(vc.begin(), vc.end()) << '\n';
 #pragma endregion
 	   	
 #pragma region Package_task
