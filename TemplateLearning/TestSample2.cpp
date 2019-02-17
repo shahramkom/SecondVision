@@ -11,6 +11,12 @@ using namespace Distance::Unit;
 
 static const int NUM = 100000;
 
+#define _USE_MATH_DEFINES
+
+#ifndef M_PI
+    #define M_PI 3.14159265358979323846
+#endif
+
 #pragma region Variable template
 template<class T>
 constexpr T pi = T(3.1415926535897932385L);  // variable template
@@ -522,17 +528,15 @@ int main()
 	auto startPar = chrono::steady_clock::now().time_since_epoch().count();
 	int sab[100000] = { 0, };
 #pragma omp parallel for
-	for (int i = 0; i < 100000; i++) {
+	for (int i = 0; i < 100000; i++)
 		sab[i] = 2 * i;
-	}
 	auto endPar = chrono::steady_clock::now().time_since_epoch().count();
 	cout << "Duration parallel:" << (endPar - startPar) << endl;
 
 	auto startNor = chrono::steady_clock::now().time_since_epoch().count();
 	int saz[100000] = { 0, };
-	for (int i = 0; i < 100000; i++) {
+	for (int i = 0; i < 100000; i++)
 		saz[i] = 2 * i;
-	}
 	auto endNor = chrono::steady_clock::now().time_since_epoch().count();
 	cout << "Duration normal:" << (endNor - startNor) << endl<< endl;
 
@@ -552,16 +556,25 @@ int main()
 		}
 
 	}  /* All threads join master thread and disband */
+
+
+
 #pragma endregion
 
 #pragma region parallel_sum
 	cout << endl;
-	vector<int> v(10000, 1);
+	auto startNr = std::chrono::steady_clock::now().time_since_epoch().count();
+	vector<int> v(100000, 1);
 	cout << "The sum is " << parallel_sum(v.begin(), v.end()) << '\n';
+	auto endNr = std::chrono::steady_clock::now().time_since_epoch().count();
+	std::cout << "Duration Vector Parallel Sum Normal:" << (endNr - startNr) << std::endl << std::endl;
 
+	auto startPr = std::chrono::steady_clock::now().time_since_epoch().count();
+ 	concurrent_vector<int> vc(100000, 1);
+ 	cout << "The sum Count is " << parallel_sum(vc.begin(), vc.end()) << '\n';
+	auto endPr = std::chrono::steady_clock::now().time_since_epoch().count();
+	std::cout << "Duration Concurrent Vector Parallel Sum:" << (endPr - startPr) << std::endl << std::endl;
 
-	concurrent_vector<int> vc(10000, 1);
-	cout << "The sum Count is " << parallel_sum(vc.begin(), vc.end()) << '\n';
 #pragma endregion
 	   	
 #pragma region Package_task

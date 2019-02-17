@@ -17,6 +17,9 @@ http://www.modernescpp.com/index.php/compare-and-modify-types ***25/11/97
 http://www.modernescpp.com/index.php/check-types ***25/11/97
 http://www.modernescpp.com/index.php/statically-checked ***25/11/97
 ____________________________________________________________________________________________
+https://bisqwit.iki.fi/story/howto/openmp/ ***28/11/97
+https://www.openmp.org/wp-content/uploads/OpenMPRef-5.0-111802-print.pdf ***28/11/97
+____________________________________________________________________________________________
 http://www.modernescpp.com/index.php/monads-in-c
 http://www.modernescpp.com/index.php/category/c-17
 ________________________________________________________________________
