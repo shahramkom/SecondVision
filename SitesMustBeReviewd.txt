@@ -36,6 +36,13 @@ _______________________________________________________________________
 http://www.modernescpp.com/index.php/der-einstieg-in-modernes-c#HighSafetyRequirements
 
 http://www.modernescpp.com/index.php/category/multithreading-memory-model
+	http://www.modernescpp.com/index.php/relaxed-semantic ***29/11/97
+	http://www.modernescpp.com/index.php/acquire-release-fences ***29/11/97
+	http://www.modernescpp.com/index.php/fences-as-memory-barriers
+	http://www.modernescpp.com/index.php/acquire-release-semantic-the-typical-misunderstanding
+	http://www.modernescpp.com/index.php/memory-order-consume
+	http://www.modernescpp.com/index.php/transivity-of-the-acquire-release-semantic
+_____________________________________________________________________________________
 http://www.modernescpp.com/index.php/category/multithreading
 http://www.modernescpp.com/index.php/reader-writer-locks
 _______________________________________________________________________

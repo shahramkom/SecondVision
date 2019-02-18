@@ -53,6 +53,7 @@
     <ClInclude Include="MVJSON.h" />
     <ClInclude Include="NamedTuple.h" />
     <ClInclude Include="Serialisation.h" />
+    <ClInclude Include="spinlockAcquireRelease.h" />
     <ClInclude Include="unit.h" />
     <ClInclude Include="Usage.h" />
     <ClInclude Include="vectorArithmeticExpressionTemplates.h">

@@ -6,6 +6,7 @@
 #include "unit.h"
 #include "vectorArithmeticOperatorOverloading.h"
 #include "vectorArithmeticExpressionTemplates.h"
+#include "spinlockAcquireRelease.h"
 
 using namespace Distance::Unit;
 
@@ -432,6 +433,61 @@ long long getDotProduct(std::vector<int>& v, std::vector<int>& w) {
 #pragma endregion Async
 
 
+#pragma region Acquire_Release_Fences_Atomic
+std::atomic<std::string*> ptrs;
+int datas;
+std::atomic<int> atoData;
+
+void producerAtomic() {
+	std::string* p = new std::string("C++11");
+	datas = 2011;
+	atoData.store(2014, std::memory_order_relaxed);
+	ptrs.store(p, std::memory_order_release);
+}
+
+void consumerAtomic() {
+	std::string* p2;
+	while (!(p2 = ptrs.load(std::memory_order_acquire)));
+	std::cout << "*p2 Atomic: " << *p2 << std::endl;
+	std::cout << "data Atomic: " << datas << std::endl;
+	std::cout << "atoData Atomic: " << atoData.load(std::memory_order_relaxed) << std::endl;
+}
+#pragma endregion Acquire_Release_Fences_Atomic
+
+#pragma region Acquire_Release_Fences_Barriers
+std::atomic<std::string*> ptrM;
+int dataM;
+std::atomic<int> atoDataM;
+
+void producerBarriers() {
+	std::string* p = new std::string("C++11");
+	dataM = 2011;
+	atoDataM.store(2014, std::memory_order_relaxed);
+	std::atomic_thread_fence(std::memory_order_release);
+	ptrM.store(p, std::memory_order_relaxed);
+}
+
+void consumerBarriers() {
+	std::string* p2;
+	while (!(p2 = ptrM.load(std::memory_order_relaxed)));
+	std::atomic_thread_fence(std::memory_order_acquire);
+	std::cout << "*p2 Barriers: " << *p2 << std::endl;
+	std::cout << "data Barriers: " << dataM << std::endl;
+	std::cout << "atoData Barriers: " << atoData.load(std::memory_order_relaxed) << std::endl;
+}
+
+#pragma endregion Acquire_Release_Fences_Barriers
+
+
+std::atomic<int> cnt = { 0 };
+
+void fCnt()
+{
+	for (int n = 0; n < 1000; ++n) {
+		cnt.fetch_add(1, std::memory_order_relaxed);
+	}
+}
+
 int main()
 {
 	cout << "Circular area :" << circular_area<long double>(50) << endl; 
@@ -762,11 +818,50 @@ int main()
 	std::cout << std::endl;
 #pragma endregion Async3
 
-
-	
 #pragma endregion Async
 
+#pragma region Acquire_Release_Fences
+	std::cout << std::endl;
 
+	std::thread t1A(producerAtomic);
+	std::thread t2A(consumerAtomic);
+
+	t1A.join();
+	t2A.join();
+
+	delete ptrs;
+
+	std::cout << std::endl;
+#pragma endregion Acquire_Release_Fences
+
+#pragma region Acquire_Release_Fences_Barriers
+	std::cout << std::endl;
+
+	std::thread t1M(producerBarriers);
+	std::thread t2M(consumerBarriers);
+
+	t1M.join();
+	t2M.join();
+
+	delete ptrM;
+
+	std::cout << std::endl;
+#pragma endregion Acquire_Release_Fences_Barriers
+	
+	std::thread tAF(workOnResourceAF);
+	std::thread tAF2(workOnResourceAF);
+
+	tAF.join();
+	tAF2.join();
+
+	std::vector<std::thread> vCnt;
+	for (int n = 0; n < 10; ++n) 
+		vCnt.emplace_back(fCnt);
+	
+	for (auto& ts : vCnt) {
+		ts.join();
+	}
+	std::cout << "Final counter value is " << cnt << '\n';
 
 	return getchar();
 }
