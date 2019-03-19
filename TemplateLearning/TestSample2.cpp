@@ -9,6 +9,7 @@
 #include "spinlockAcquireRelease.h"
 
 using namespace Distance::Unit;
+using namespace std::chrono;
 
 static const int NUM = 100000;
 
@@ -488,8 +489,142 @@ void fCnt()
 	}
 }
 
+
+long long milliseconds_now() {
+	static LARGE_INTEGER s_frequency;
+	static BOOL s_use_qpc = QueryPerformanceFrequency(&s_frequency);
+	if (s_use_qpc) {
+		LARGE_INTEGER now;
+		QueryPerformanceCounter(&now);
+		//return (1000LL * now.QuadPart) / s_frequency.QuadPart;
+		return (now.QuadPart);
+	}
+	else {
+		return GetTickCount();
+	}
+}
+
+#include <iostream>
+#include <iomanip>
+#include <ctime>
+#include <chrono>
+
+#define _CRT_SECURE_NO_WARNINGS
+#pragma warning(disable : 4996)
+
+string systemClockTimepointToString(const chrono::system_clock::time_point& timepoint, string format)
+{
+	time_t utcTime = chrono::system_clock::to_time_t(timepoint);
+	if (utcTime == 0)
+		return "";
+
+	tm localTime = {};
+	localtime_s(&localTime, &utcTime);
+
+	char res[20];
+	strftime(res, sizeof(res), format.c_str(), &localTime);
+
+	return res;
+}
+
+
+auto getStringOfTimepointTemp(const chrono::system_clock::time_point& timePoint, const std::time_t& inputTime, string& str) //-> string
+{
+	
+	std::strftime(&str[0], 30, "%Y-%m-%d %H:%M:%S", std::localtime(&inputTime));
+}
+
+auto getStringOfTimepoint(const chrono::system_clock::time_point& timePoint, string& str) //-> string
+{
+	std::time_t inputTime = std::chrono::system_clock::to_time_t(timePoint);
+	char tms[15] = { 0, };
+	std::strftime(tms, 30, "%H:%M:%S", std::localtime(&inputTime));
+	str = string(tms);
+}
+
+void getStringOfTimepointW(const chrono::system_clock::time_point& timePoint, wstring& str) //-> string
+{
+	std::time_t inputTime = std::chrono::system_clock::to_time_t(timePoint);
+	std::strftime((char*)&str[0], 30, "%H:%M:%S", std::localtime(&inputTime));
+}
+
+void getStringOfTimepointW(string& str) //-> string
+{
+	std::time_t inputTime = 1551070240;
+	std::strftime(& str[0], 15, "%H:%M:%S", std::localtime(&inputTime));
+}
+
+using u64_millis = duration<uint64_t, milli>;
+static time_point<system_clock, u64_millis> u64_to_time(uint64_t timestamp) {
+	return time_point<system_clock, u64_millis>{u64_millis{ timestamp }};
+}
+struct foo {
+	time_point<system_clock> time_stamp;
+
+	time_point<system_clock> get_timestamp() { return time_stamp; }
+	foo() : time_stamp(system_clock::now()) {}
+};
+
 int main()
 {
+
+	std::time_t epoch_time = std::chrono::system_clock::to_time_t(system_clock::now());
+	std::cout << "epoch: " << std::ctime(&epoch_time)<<endl;
+
+	char str[15];
+	std::strftime(str, 15, "%H:%M:%S", std::localtime(&epoch_time));
+	std::cout << "epoch: " << str << endl;
+
+
+	auto now = system_clock::now();
+
+	auto cst = u64_to_time(now.time_since_epoch().count());
+	string nowTimes;
+	getStringOfTimepoint(cst, nowTimes);
+
+	
+	auto tps = system_clock::now();
+
+	string nowTime;
+	getStringOfTimepoint(tps, nowTime);
+	cout << "Now:" << nowTime << endl;
+	auto tpsm = tps.time_since_epoch();
+	/*cout << "Now epoch:" << tpsm << endl;
+	time_t tttm = tpsm;
+	printf("%s", asctime(gmtime(&tttm)));*/
+
+
+	string spd;
+	getStringOfTimepointW(spd);
+
+	system_clock::time_point tp_ ;
+
+	unsigned long long Last_ = 0;
+	unsigned long long Now_ = 0;
+	Last_ = GetTickCount64();
+	for (int i = 0 ; i < 1000000; i++)
+		tp_ = system_clock::now();
+	Now_ = GetTickCount64();
+	printf("Elapsed Time for \"Set\"  1'000'000 in Milliseconds: %llu\n", (Now_ - Last_));
+
+
+	unsigned long long Last__ = 0;
+	unsigned long long Now__ = 0;
+	std::time_t inputTime = std::chrono::system_clock::to_time_t(tp_);
+	Last__ = GetTickCount64();
+
+	std::string strd(15, '\0');
+	
+	for (int i = 0; i < 1000000; i++)
+	{
+		getStringOfTimepoint(tp_,strd);
+	}
+	Now__ = GetTickCount64();
+	printf("Elapsed Time for \"Cast\" 1'000'000 in Milliseconds: %llu\n", (Now__ - Last__));
+	
+	return getchar();
+
+
 	cout << "Circular area :" << circular_area<long double>(50) << endl; 
 #pragma region Literals
 
