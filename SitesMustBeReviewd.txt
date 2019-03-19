@@ -44,6 +44,18 @@ http://www.modernescpp.com/index.php/category/multithreading-memory-model
 	http://www.modernescpp.com/index.php/transivity-of-the-acquire-release-semantic
 _____________________________________________________________________________________
 http://www.modernescpp.com/index.php/category/multithreading
+	http://www.modernescpp.com/index.php/a-new-thread-with-c-20-std-jthread
+	http://www.modernescpp.com/index.php/the-end-of-the-detour-unified-futures
+	http://www.modernescpp.com/index.php/a-short-detour-executors
+	http://www.modernescpp.com/index.php/aba-a-is-not-the-same-as-a
+	http://www.modernescpp.com/index.php/blocking-and-non-blocking
+	http://www.modernescpp.com/index.php/malicious-race-conditions
+	http://www.modernescpp.com/index.php/race-condition-versus-data-race
+	http://www.modernescpp.com/index.php/task-blocks
+	http://www.modernescpp.com/index.php/transactional-memory
+	http://www.modernescpp.com/index.php/a-short-detour-executors
+_____________________________________________________________________________________
+
 http://www.modernescpp.com/index.php/reader-writer-locks
 _______________________________________________________________________
 http://www.modernescpp.com/index.php/tag/c-20?start=0

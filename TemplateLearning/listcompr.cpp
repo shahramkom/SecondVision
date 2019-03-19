@@ -44,13 +44,13 @@ typename function_traits<Function>::function to_fn(const Function & lambda)
 // Range of natural integers
 class Naturals
 {
-	int min;
-	int max;
+	int minN;
+	int maxN;
 public:
-	Naturals() : min(1), max(1000) {}
-	Naturals(int min, int max) : min(min), max(max) {}
-	int at(int i) const { return i + min; };
-	int size() const { return max - min + 1; };
+	Naturals() : minN(1), maxN(1000) {}
+	Naturals(int minN, int maxN) : minN(minN), maxN(maxN) {}
+	int at(int i) const { return i + minN; };
+	int size() const { return maxN - minN + 1; };
 
 	class Iterator {
 		int position;
@@ -61,8 +61,8 @@ public:
 		bool operator!=(const Iterator& it) const { return position != it.position; }
 	};
 
-	Iterator begin() const { return { min }; }
-	Iterator end()   const { return { max }; }
+	Iterator begin() const { return { minN }; }
+	Iterator end()   const { return { maxN }; }
 };
 
 
