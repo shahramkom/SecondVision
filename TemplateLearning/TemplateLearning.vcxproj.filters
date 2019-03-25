@@ -22,6 +22,15 @@
     <Filter Include="Source Files\Samples">
       <UniqueIdentifier>{c3e90595-dc17-4a08-80a2-50a868e6e2ed}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Allocator">
+      <UniqueIdentifier>{ee1095d8-76ba-4775-8a73-54c2ba4a72b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Template">
+      <UniqueIdentifier>{467cf4b6-02d2-46e4-8592-7c088e600e1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Allocator_Moya">
+      <UniqueIdentifier>{476c2917-db86-4145-88eb-1361f223a77e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="aop.cpp">
@@ -66,6 +75,24 @@
     <ClCompile Include="OpenMPTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TestSample3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MeasurePerformance.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AllocatorTest.cpp">
+      <Filter>Source Files\Allocator</Filter>
+    </ClCompile>
+    <ClCompile Include="temporary_allocations.cpp">
+      <Filter>Source Files\Allocator</Filter>
+    </ClCompile>
+    <ClCompile Include="MorningMusings.cpp">
+      <Filter>Source Files\Allocator</Filter>
+    </ClCompile>
+    <ClCompile Include="Measure.cpp">
+      <Filter>Source Files\Allocator_Moya</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="includes.h">
@@ -100,6 +127,9 @@
     </ClInclude>
     <ClInclude Include="spinlockAcquireRelease.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Allocator.h">
+      <Filter>Source Files\Allocator_Moya</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

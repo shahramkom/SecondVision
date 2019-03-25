@@ -37,3 +37,5 @@
 /TemplateLearning/.vs/TemplateLearning/config
 /TemplateLearning/~AutoRecover.TemplateLearning.vcxproj
 /TemplateLearning/.idea
+/TemplateLearning/x64/Release
+/TemplateLearning/TemplateLearning.sln.DotSettings.user

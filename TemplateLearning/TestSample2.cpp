@@ -565,66 +565,8 @@ struct foo {
 	foo() : time_stamp(system_clock::now()) {}
 };
 
-int main()
+int mainTest2()
 {
-
-	std::time_t epoch_time = std::chrono::system_clock::to_time_t(system_clock::now());
-	std::cout << "epoch: " << std::ctime(&epoch_time)<<endl;
-
-	char str[15];
-	std::strftime(str, 15, "%H:%M:%S", std::localtime(&epoch_time));
-	std::cout << "epoch: " << str << endl;
-
-
-	auto now = system_clock::now();
-
-	auto cst = u64_to_time(now.time_since_epoch().count());
-	string nowTimes;
-	getStringOfTimepoint(cst, nowTimes);
-
-	
-	auto tps = system_clock::now();
-
-	string nowTime;
-	getStringOfTimepoint(tps, nowTime);
-	cout << "Now:" << nowTime << endl;
-	auto tpsm = tps.time_since_epoch();
-	/*cout << "Now epoch:" << tpsm << endl;
-	time_t tttm = tpsm;
-	printf("%s", asctime(gmtime(&tttm)));*/
-
-
-	string spd;
-	getStringOfTimepointW(spd);
-
-	system_clock::time_point tp_ ;
-
-	unsigned long long Last_ = 0;
-	unsigned long long Now_ = 0;
-	Last_ = GetTickCount64();
-	for (int i = 0 ; i < 1000000; i++)
-		tp_ = system_clock::now();
-	Now_ = GetTickCount64();
-	printf("Elapsed Time for \"Set\"  1'000'000 in Milliseconds: %llu\n", (Now_ - Last_));
-
-
-	unsigned long long Last__ = 0;
-	unsigned long long Now__ = 0;
-	std::time_t inputTime = std::chrono::system_clock::to_time_t(tp_);
-	Last__ = GetTickCount64();
-
-	std::string strd(15, '\0');
-	
-	for (int i = 0; i < 1000000; i++)
-	{
-		getStringOfTimepoint(tp_,strd);
-	}
-	Now__ = GetTickCount64();
-	printf("Elapsed Time for \"Cast\" 1'000'000 in Milliseconds: %llu\n", (Now__ - Last__));
-	
-	return getchar();
-
-
 	cout << "Circular area :" << circular_area<long double>(50) << endl; 
 #pragma region Literals
 
@@ -998,5 +940,7 @@ int main()
 	}
 	std::cout << "Final counter value is " << cnt << '\n';
 
+	
 	return getchar();
 }
+

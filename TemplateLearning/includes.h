@@ -31,6 +31,18 @@
 #include <atomic>
 #include <random>
 #include <complex>
+#include <list>
+#include <map>
+#include <deque>
+#include <iomanip>
+#include <numeric>
+#include <set>
+#include <string>
+#include <unordered_map>
+#include <unordered_set>
+#include <utility>
+#include <cstdlib>
+#include <new>
 
 using namespace std;
 using  namespace std::placeholders;
