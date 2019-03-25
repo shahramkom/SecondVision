@@ -130,8 +130,8 @@ void printTestStatus(const char *name, StlContainer &stlContainer, FastContainer
 
 int main()
 {
-    typedef uint64_t DataType;
-    typedef Moya::Allocator<DataType, growSize> MemoryPoolAllocator;
+	using DataType = int;
+	using MemoryPoolAllocator = Moya::Allocator<DataType, growSize>;
 
     std::cout << "Allocator performance measurement example" << std::endl;
     std::cout << "Version: 1.0" << std::endl << std::endl;

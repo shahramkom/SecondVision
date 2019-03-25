@@ -90,18 +90,18 @@ class Allocator : private MemoryPool<T, growSize>
 #endif
 
     public:
-		typedef std::size_t size_type;
-        typedef std::ptrdiff_t difference_type;
-        typedef T* pointer;
-        typedef const T* const_pointer;
-        typedef T& reference;
-        typedef const T& const_reference;
-        typedef T value_type;
+	    using size_type = std::size_t;
+	    using difference_type = std::ptrdiff_t;
+	    using pointer = T*;
+	    using const_pointer = const T*;
+	    using reference = T&;
+	    using const_reference = const T&;
+	    using value_type = T;
 
         template <class U>
         struct rebind
         {
-            typedef Allocator<U, growSize> other;
+	        using other = Allocator<U, growSize>;
         };
 
 #ifdef _WIN32
