@@ -128,7 +128,7 @@ void printTestStatus(const char *name, StlContainer &stlContainer, FastContainer
     std::cout << std::endl;
 }
 
-int mainMes()
+int main()
 {
 	using DataType = int;
 	using MemoryPoolAllocator = Moya::Allocator<DataType, growSize>;
@@ -136,21 +136,32 @@ int mainMes()
     std::cout << "Allocator performance measurement example" << std::endl;
     std::cout << "Version: 1.0" << std::endl << std::endl;
 
-    PushFrontTest<std::forward_list<DataType>> pushFrontForwardListTestStl;
-    PushFrontTest<std::forward_list<DataType, MemoryPoolAllocator>> pushFrontForwardListTestFast;
-    printTestStatus("ForwardList PushFront", pushFrontForwardListTestStl, pushFrontForwardListTestFast);
+	std::map<char, int, std::greater<>> mymap;
 
-    PushFrontTest<std::list<DataType>> pushFrontListTestStl;
-    PushFrontTest<std::list<DataType, MemoryPoolAllocator>> pushFrontListTestFast;
-    printTestStatus("List PushFront", pushFrontListTestStl, pushFrontListTestFast);
+	// allocate an array of 5 elements using my map's allocator:
+	std::pair<const char, int>* p = mymap.get_allocator().allocate(5);
+	p[0].second = 100;
+	p[1].second = 200;
+	p[2].second = 300;
 
-	//VectorTest<std::vector<DataType>> vectorTestStl;
-	//VectorTest<std::vector<DataType, MemoryPoolAllocator>> vectorTestFast;
-	//printTestStatus("Vector PushFront", vectorTestStl, vectorTestFast);
+	// assign some values to array
+	int psize = sizeof(std::map<char, int>::value_type) * 5;
 
-    PushBackTest<std::list<DataType>> pushBackListTestStl;
-    PushBackTest<std::list<DataType, MemoryPoolAllocator>> pushBackListTestFast;
-    printTestStatus("List PushBack", pushBackListTestStl, pushBackListTestFast);
+	std::cout << "The allocated array has a size of " << psize << " bytes.\n";
+
+	mymap.get_allocator().deallocate(p, 5);
+
+//     PushFrontTest<std::forward_list<DataType>> pushFrontForwardListTestStl;
+//     PushFrontTest<std::forward_list<DataType, MemoryPoolAllocator>> pushFrontForwardListTestFast;
+//     printTestStatus("ForwardList PushFront", pushFrontForwardListTestStl, pushFrontForwardListTestFast);
+
+//     PushFrontTest<std::list<DataType>> pushFrontListTestStl;
+//     PushFrontTest<std::list<DataType, MemoryPoolAllocator>> pushFrontListTestFast;
+//     printTestStatus("List PushFront", pushFrontListTestStl, pushFrontListTestFast);
+
+//     PushBackTest<std::list<DataType>> pushBackListTestStl;
+//     PushBackTest<std::list<DataType, MemoryPoolAllocator>> pushBackListTestFast;
+//     printTestStatus("List PushBack", pushBackListTestStl, pushBackListTestFast);
 
 	MapTest<std::map<DataType, DataType, std::less<>>> mapTestStl;
 	MapTest<std::map<DataType, DataType, std::less<>, MemoryPoolAllocator>> mapTestFast;
@@ -159,6 +170,7 @@ int mainMes()
     SetTest<std::set<DataType, std::less<>>> setTestStl;
     SetTest<std::set<DataType, std::less<>, MemoryPoolAllocator>> setTestFast;
     printTestStatus("Set", setTestStl, setTestFast);
+
 
     return getchar();
 }

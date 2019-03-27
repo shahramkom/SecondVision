@@ -83,7 +83,7 @@ void freeEth(void* ethAddr)
 	EthPoolAllocator->Free(ethAddr);
 }
 
-int main()
+int mainAllc()
 {
 	counter = 1;
 
