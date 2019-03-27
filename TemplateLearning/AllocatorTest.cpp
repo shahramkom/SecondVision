@@ -230,3 +230,50 @@ int mainAlloc()
 
 	return getchar();
 }
+
+template< typename T, typename A >
+void safe_swap(std::vector<T, A>& a, std::vector<T, A>& b)
+{
+
+	if ((std::allocator_traits<A>::propagate_on_container_swap::value) ||
+		(a.get_allocator() == b.get_allocator()))
+	{
+		// ok, swap the allocators if required, no copy or move of elements in the vectors
+		a.swap(b);
+		std::cout << "swapped using std::vector<>::swap\n";
+	}
+
+	else
+	{
+		const auto temp(std::move(a)); // EDIT: ???
+		a = std::move(b);
+		b = std::move(temp);
+		std::cout << "swapped by moving the elements;\n\t\t"
+			"(allocators aren't equal and they can't be swapped)\n";
+	}
+}
+
+struct my_allocator : public std::allocator<int>
+{
+	using std::allocator<int>::allocator;
+
+	static constexpr bool is_always_equal = false;
+	static constexpr bool propagate_on_container_move_assignment = false;
+	friend bool operator== (const my_allocator&, const my_allocator&) { return false; }
+	friend bool operator!= (const my_allocator&, const my_allocator&) { return true; }
+};
+
+int main()
+{
+	{
+		std::cout << "std::vector with the default allocator: ";
+		std::vector<int> a(100), b(200);
+		safe_swap(a, b);
+	}
+
+	{
+		std::cout << "\nstd::vector with the my_allocator: ";
+		std::vector< int, my_allocator > a(100), b(200);
+		safe_swap(a, b);
+	}
+}
