@@ -716,8 +716,8 @@ int mainSample1() {
 #pragma endregion Tag Dispatching
 
 #pragma region StaticAssert
-  static_assert(sizeof(void*) == 8, "64-bit addressing is required!");
-  //static_assert(sizeof(void*) >= 8, "64-bit addressing is required!"); //Show Error on compile Time
+  // static_assert(sizeof(void*) == 8, "64-bit addressing is required!");
+  // static_assert(sizeof(void*) >= 8, "64-bit addressing is required!"); //Show Error on compile Time
 
   static_assert(sizeof(int) == sizeof(long int), "int and long int must be of the same length.");
 

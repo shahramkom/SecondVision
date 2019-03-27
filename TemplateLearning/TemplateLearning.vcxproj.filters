@@ -31,6 +31,9 @@
     <Filter Include="Source Files\Allocator_Moya">
       <UniqueIdentifier>{476c2917-db86-4145-88eb-1361f223a77e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Allocator_Pool">
+      <UniqueIdentifier>{a2524d69-e51c-4a40-8bc0-b07a8347bb26}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="aop.cpp">
@@ -90,8 +93,20 @@
     <ClCompile Include="MorningMusings.cpp">
       <Filter>Source Files\Allocator</Filter>
     </ClCompile>
-    <ClCompile Include="Measure.cpp">
+    <ClCompile Include="PoolAllocator\Allocator.cpp">
+      <Filter>Source Files\Allocator_Pool</Filter>
+    </ClCompile>
+    <ClCompile Include="PoolAllocator\CustomeDsAllocator.cpp">
+      <Filter>Source Files\Allocator_Pool</Filter>
+    </ClCompile>
+    <ClCompile Include="PoolAllocator\PoolAllocator.cpp">
+      <Filter>Source Files\Allocator_Pool</Filter>
+    </ClCompile>
+    <ClCompile Include="MoyaAllocator\Measure.cpp">
       <Filter>Source Files\Allocator_Moya</Filter>
+    </ClCompile>
+    <ClCompile Include="PoolAllocator\StackAllocator.cpp">
+      <Filter>Source Files\Allocator_Pool</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -128,8 +143,20 @@
     <ClInclude Include="spinlockAcquireRelease.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Allocator.h">
+    <ClInclude Include="PoolAllocator\Allocator.h">
+      <Filter>Source Files\Allocator_Pool</Filter>
+    </ClInclude>
+    <ClInclude Include="PoolAllocator\PoolAllocator.h">
+      <Filter>Source Files\Allocator_Pool</Filter>
+    </ClInclude>
+    <ClInclude Include="MoyaAllocator\Allocator.h">
       <Filter>Source Files\Allocator_Moya</Filter>
+    </ClInclude>
+    <ClInclude Include="PoolAllocator\StackLinkedList.h">
+      <Filter>Source Files\Allocator_Pool</Filter>
+    </ClInclude>
+    <ClInclude Include="PoolAllocator\StackLinkedListImpl.h">
+      <Filter>Source Files\Allocator_Pool</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

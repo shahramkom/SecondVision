@@ -52,7 +52,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Measure.cpp" />
     <ClCompile Include="MeasurePerformance.cpp" />
     <ClCompile Include="MorningMusings.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
@@ -60,6 +59,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="MoyaAllocator\Measure.cpp" />
     <ClCompile Include="MVJSON.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -67,6 +67,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="OpenMPTest.cpp" />
+    <ClCompile Include="PoolAllocator\Allocator.cpp" />
+    <ClCompile Include="PoolAllocator\CustomeDsAllocator.cpp" />
+    <ClCompile Include="PoolAllocator\PoolAllocator.cpp" />
+    <ClCompile Include="PoolAllocator\StackAllocator.cpp" />
     <ClCompile Include="PracticePipe.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -86,12 +90,16 @@
     <ClCompile Include="TestSamples.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Allocator.h" />
     <ClInclude Include="Declaration.h" />
     <ClInclude Include="distance.h" />
     <ClInclude Include="includes.h" />
+    <ClInclude Include="MoyaAllocator\Allocator.h" />
     <ClInclude Include="MVJSON.h" />
     <ClInclude Include="NamedTuple.h" />
+    <ClInclude Include="PoolAllocator\Allocator.h" />
+    <ClInclude Include="PoolAllocator\PoolAllocator.h" />
+    <ClInclude Include="PoolAllocator\StackLinkedList.h" />
+    <ClInclude Include="PoolAllocator\StackLinkedListImpl.h" />
     <ClInclude Include="Serialisation.h" />
     <ClInclude Include="spinlockAcquireRelease.h" />
     <ClInclude Include="unit.h" />
@@ -172,7 +180,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_SILENCE_CXX17_OLD_ALLOCATOR_MEMBERS_DEPRECATION_WARNING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_SILENCE_CXX17_OLD_ALLOCATOR_MEMBERS_DEPRECATION_WARNING;_ENFORCE_MATCHING_ALLOCATORS=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <EnableModules>true</EnableModules>

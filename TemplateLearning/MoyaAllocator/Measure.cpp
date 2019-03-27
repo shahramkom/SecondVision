@@ -128,7 +128,7 @@ void printTestStatus(const char *name, StlContainer &stlContainer, FastContainer
     std::cout << std::endl;
 }
 
-int main()
+int mainMes()
 {
 	using DataType = int;
 	using MemoryPoolAllocator = Moya::Allocator<DataType, growSize>;

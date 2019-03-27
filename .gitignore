@@ -39,3 +39,7 @@
 /TemplateLearning/.idea
 /TemplateLearning/x64/Release
 /TemplateLearning/TemplateLearning.sln.DotSettings.user
+/TemplateLearning/x64/Debug/TemplateLearning.tlog
+/TemplateLearning/x64/Debug/TemplateLearning.log
+/TemplateLearning/x64/Debug/vc142.idb
+/TemplateLearning/x64/Debug/vc142.pdb
